@@ -9,6 +9,10 @@ public class App
     public static void main( String[] args )
     {
         String res = "920x689";
+        Character c = res.charAt(0);
+        if(c.equals('9')){
+            System.out.println("equal");
+        }
         String[] size = res.split("x");
         if(size.length!=2){
             //log error
