@@ -1,47 +1,53 @@
 package org.alibaba;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-class Node{
-    public Integer value;
-    public Node next;
-    public Node(Integer cur){
-        value = cur;
-    }
-    public boolean bigger(Integer in){
-        return value.intValue() >= (in.intValue());
-    }
-
-}
-
 class findMedianSortedArrays {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        Node move = null;
-        Node head = null;
-        for (int i = 0; i < nums1.length; i++) {
-            move = new Node(nums1[i]);
-            if (i == 0) {
-                head = move;
-            }
-            move = move.next;
-        }
+        int n1Length = nums1.length;
+        int n2Length = nums2.length;
+        int[] nums = new int[n1Length + n2Length];
 
-        Node tmpHead = head;
-        for (int i = 0; i < nums2.length; i++) {
-
-            if (i == 0) {
-                if (tmpHead.bigger(nums2[i])) {
-                    Node n = new Node(nums2[i]);
-                    n.next = tmpHead;
-                    tmpHead = n;
-                }
+        if (n1Length == 0) {
+            if (n2Length % 2 == 0) {
+                return (nums2[n2Length / 2 - 1] + nums2[n2Length / 2]) / 2.0;
             } else {
-
+                return nums2[n2Length / 2];
             }
         }
-        return 0;
+        if (n2Length == 0) {
+            if (n1Length % 2 == 0) {
+                return (nums1[n1Length / 2 - 1] + nums1[n1Length / 2]) / 2.0;
+            } else {
+                return nums1[n1Length / 2];
+            }
+        }
+
+        int count = 0;
+        int n1Index = 0, n2Index = 0;
+        while (count != (n1Length + n2Length)) {
+            if (n1Index == n1Length) {
+                while (n2Index != n2Length) {
+                    nums[count++] = nums2[n2Index++];
+                }
+                break;
+            }
+            if (n2Index == n2Length) {
+                while (n1Index != n1Length) {
+                    nums[count++] = nums1[n1Index++];
+                }
+                break;
+            }
+
+            if (nums1[n1Index] < nums2[n2Index]) {
+                nums[count++] = nums1[n1Index++];
+            } else {
+                nums[count++] = nums2[n2Index++];
+            }
+        }
+
+        if (count % 2 == 0) {
+            return (nums[count / 2 - 1] + nums[count / 2]) / 2.0;
+        } else {
+            return nums[count / 2];
+        }
     }
 }
